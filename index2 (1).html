@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Entry Form</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #3498db, #8e44ad); /* Blue to Purple gradient */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+        }
+        .container {
+            margin-top: 50px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            display: inline-block;
+        }
+        input, button {
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Enter Data</h2>
+        <input type="text" id="name" placeholder="Enter Name">
+        <input type="number" id="number" min="1" max="5" placeholder="Enter Number (1-5)">
+        <button onclick="submitData()">Submit</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function submitData() {
+            var name = document.getElementById("name").value;
+            var number = document.getElementById("number").value;
+            var url = "https://script.google.com/macros/s/AKfycbwzgm-SguDumNMzmn1eaIgOHhOSzUPlCZeUOdkF9JPaU29pi1UYMt3h-U_QgvJIT5O8/exec"; // Replace with your actual Web App URL
+
+            if (name === "" || number === "") {
+                document.getElementById("result").innerHTML = "❌ Please enter all fields!";
+                return;
+            }
+
+            fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `name=${encodeURIComponent(name)}&number=${encodeURIComponent(number)}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("result").innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById("result").innerHTML = "❌ Error: " + error;
+            });
+        }
+    </script>
+
+</body>
+</html>
