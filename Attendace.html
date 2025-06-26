@@ -250,8 +250,8 @@ table {
     </div>
 
     <div class="form-group">
-        <label for="numberInput">الرقم (بين 0 و 10)</label>
-        <input type="number" id="numberInput" min="0" max="10" oninput="checkSubmitState()">
+        <label for="numberInput">الرقم (بين 0 و 5)</label>
+        <input type="number" id="numberInput" min="0" max="5" oninput="checkSubmitState()">
     </div>
 
     <button id="submitBtn" onclick="submitData()" disabled>Submit</button>
@@ -488,7 +488,7 @@ document.getElementById("numberInput").addEventListener("input", checkSubmitStat
     function checkSubmitState() {
   const name = document.getElementById("nameInput").value.trim();
   const number = document.getElementById("numberInput").value.trim();
-  const validNumber = number !== "" && +number >= 0 && +number <= 10;
+  const validNumber = number !== "" && +number >= 0 && +number <= 5;
   const hasName = name !== "";
 
   console.log("🔍 فحص حالة الإدخال: الاسم =", hasName, "| الرقم =", validNumber);
