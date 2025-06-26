@@ -244,19 +244,21 @@ table {
     <h2>Heroes Adventure 2025 - <span id="selectedSheet">لم يتم الاختيار بعد</span> - <span id="selectedWeek">لم يتم الاختيار بعد</span></h2>
 
     <div class="form-group">
-  <label for="attendanceInput">الحضور (بين 0 و 5)</label>
+  <label for="nameInput">الاسم</label>
+  <input type="text" id="nameInput" autocomplete="off" oninput="checkSubmitState()">
+  <div id="nameSuggestions"></div>
+</div>
+
+<div class="form-group">
+  <label for="attendanceInput">الحضور (0 - 5)</label>
   <input type="number" id="attendanceInput" min="0" max="5" oninput="checkSubmitState()">
 </div>
 
 <div class="form-group">
-  <label for="bookInput">الكتاب (بين 0 و 5)</label>
+  <label for="bookInput">الكتاب (0 - 5)</label>
   <input type="number" id="bookInput" min="0" max="5" oninput="checkSubmitState()">
 </div>
 
-    <div class="form-group">
-        <label for="numberInput">الرقم (بين 0 و 5)</label>
-        <input type="number" id="numberInput" min="0" max="5" oninput="checkSubmitState()">
-    </div>
 
     <button id="submitBtn" onclick="submitData()" disabled>Submit</button>
 </div>
