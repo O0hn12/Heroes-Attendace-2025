@@ -244,10 +244,14 @@ table {
     <h2>Heroes Adventure 2025 - <span id="selectedSheet">لم يتم الاختيار بعد</span> - <span id="selectedWeek">لم يتم الاختيار بعد</span></h2>
 
     <div class="form-group">
-        <label for="nameInput">الاسم</label>
-        <input type="text" id="nameInput" autocomplete="off" oninput="checkSubmitState()">
-        <div id="nameSuggestions"></div>
-    </div>
+  <label for="attendanceInput">الحضور (بين 0 و 5)</label>
+  <input type="number" id="attendanceInput" min="0" max="5" oninput="checkSubmitState()">
+</div>
+
+<div class="form-group">
+  <label for="bookInput">الكتاب (بين 0 و 5)</label>
+  <input type="number" id="bookInput" min="0" max="5" oninput="checkSubmitState()">
+</div>
 
     <div class="form-group">
         <label for="numberInput">الرقم (بين 0 و 5)</label>
@@ -487,14 +491,17 @@ document.getElementById("numberInput").addEventListener("input", checkSubmitStat
     });
     function checkSubmitState() {
   const name = document.getElementById("nameInput").value.trim();
-  const number = document.getElementById("numberInput").value.trim();
-  const validNumber = number !== "" && +number >= 0 && +number <= 5;
+  const attendance = document.getElementById("attendanceInput").value.trim();
+  const book = document.getElementById("bookInput").value.trim();
+
+  const validAttendance = attendance !== "" && +attendance >= 0 && +attendance <= 5;
+  const validBook = book !== "" && +book >= 0 && +book <= 5;
   const hasName = name !== "";
 
-  console.log("🔍 فحص حالة الإدخال: الاسم =", hasName, "| الرقم =", validNumber);
-
-  document.getElementById("submitBtn").disabled = !(validNumber && hasName);
+  const submitButton = document.getElementById("submitBtn");
+  submitButton.disabled = !(hasName && validAttendance && validBook);
 }
+    
     function submitData() {
   console.log("✅ تم الضغط على زر الإدخال");
   if (!selectedSheet) {
