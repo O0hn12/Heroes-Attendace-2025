@@ -512,7 +512,10 @@ document.getElementById("numberInput").addEventListener("input", checkSubmitStat
   }
 
   const name = document.getElementById("nameInput").value.trim();
-  const number = Number(document.getElementById("numberInput").value);
+  const attendance = Number(document.getElementById("attendanceInput").value);
+const book = Number(document.getElementById("bookInput").value);
+const total = attendance + book;
+
 
   // بيانات الإرسال
   if (!selectedWeek || typeof selectedWeek !== "string" || selectedWeek.length === 0) {
@@ -523,7 +526,7 @@ document.getElementById("numberInput").addEventListener("input", checkSubmitStat
 
 const data = {
     name: name,
-    number: number,
+    number: total,
     sheet: selectedSheet,
     week: selectedWeek // ✅ تمرير `week` كما هو بدون تحويله إلى رقم
 };
