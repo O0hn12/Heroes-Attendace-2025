@@ -146,6 +146,16 @@ table {
     display: inline-block; /* ✅ يمنع امتداد الخلفية خارج النص */
     width: fit-content; /* ✅ يجعل الخلفية بنفس عرض النص */
 }
+    .welcome-box {
+    background-color: #c0c0c0; /* ✅ لون رمادي غامق واضح */
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    font-weight: bold;
+    color: #000; /* لون النص أسود ليتناسق مع الخلفية */
+  }
     
     /* تحسين التصميم على شاشات الموبايل */
     @media screen and (max-width: 768px) {
@@ -208,6 +218,16 @@ table {
 
     <button id="loginBtn">login</button>
   </div>
+   <section id="chooseActionSection" style="display: none; text-align: center; padding: 20px;">
+  <div class="welcome-box">
+    <h2>مرحبًا اختر الإجراء:</h2>
+  </div>
+  <button onclick="goToInsert()">إدخال بيانات</button>
+  <button onclick="goToEdit()">تعديل بيانات</button>
+   <div class="backButtonContainer">
+  <button class="backBtn" onclick="goBackFromChoice()">⬅️ رجوع</button>
+</div>
+ </section>
 
   <!-- ✅ صفحة اختيار الشيت -->
   <div class="choice-section page" id="choiceSection" style="display: none;">
@@ -218,6 +238,9 @@ table {
     <button onclick="selectSheet('4ب')">4ب</button>
     <button onclick="selectSheet('5ب')">5ب</button>
     <button onclick="selectSheet('6ب')">6ب</button>
+    <div class="backButtonContainer">
+  <button class="backBtn" onclick="changePage('choiceSection', 'loginSection')">⬅️ رجوع</button>
+</div>
   </div>
 
   <!-- ✅ صفحة اختيار الأسبوع -->
@@ -236,6 +259,9 @@ table {
         <button onclick="selectWeek('I')">الأسبوع الثامن</button>
         <button onclick="selectWeek('J')">الأسبوع التاسع</button>
         <button onclick="selectWeek('K')">الأسبوع العاشر</button>
+      <div class="backButtonContainer">
+  <button class="backBtn" onclick="changePage('weekSelectionPage', 'choiceSection')">⬅️ رجوع</button>
+</div>
     </div>
 </div>
 
@@ -299,6 +325,7 @@ table {
 </div>
 
   <script>
+    let mode = ""; // إما "insert" أو "edit"
     let selectedSheet = "";
     const scriptURL = 'https://attendace.johnmamdouh777.workers.dev/';
     let allNames = [];
@@ -309,26 +336,81 @@ table {
   const username = document.getElementById("loginUsername").value.trim();
   const password = document.getElementById("loginPassword").value.trim();
 
-  if (username === "hgf" && password === "2182013") {
-    alert("تم تسجيل الدخول بنجاح");
-    changePage("loginSection", "choiceSection"); // ✅ الانتقال إلى صفحة الاختيار بدلاً من إدخال البيانات
-  } else {
-    alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة!");
-  }
+  const users = {
+  "hgf": "2182013",
+  "john": "123",
+  "selvana": "123",
+  "maria": "123",
+  "mariam": "123",
+  "bebo": "123",
+  "magood": "123",
+  "andro": "123",
+  "admin": "000"
+};
+
+if (users[username] && users[username] === password) {
+  alert("تم تسجيل الدخول بنجاح");
+
+  const currentUser = username; // ✅ المتغير يجب أن يأخذ من username
+
+  const privilegedUsers = ["John", "Selvana", "Maria", "Mariam", "Bebo", "Magood", "Andro", "admin"]; // ✅ ضيف أي مستخدم مميز هنا
+
+if (privilegedUsers.includes(currentUser)) {
+  changePage("loginSection", "chooseActionSection");
+} else {
+  changePage("loginSection", "choiceSection");
+}
+} else {
+  alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة!");
+}
 });
+
+  function goToInsert() {
+  mode = "insert";
+  changePage("chooseActionSection", "choiceSection");
+}
+
+function goToEdit() {
+  mode = "edit";
+  changePage("chooseActionSection", "choiceSection");
+}
+
+    function goBackFromChoice() {
+  if (currentUser === "john") {
+    changePage("choiceSection", "chooseActionSection");
+  } else {
+    changePage("choiceSection", "loginSection");
+  }
+}
+
     function changePage(oldPage, newPage) {
-  document.getElementById(oldPage).classList.remove("active");
-  document.getElementById(oldPage).style.display = "none";
-  document.getElementById(newPage).style.display = "block";
-  setTimeout(() => { document.getElementById(newPage).classList.add("active"); }, 50);
+  // ✅ أخفي الصفحة القديمة
+  const oldEl = document.getElementById(oldPage);
+  if (oldEl) {
+    oldEl.classList.remove("active");
+    oldEl.style.display = "none";
+  }
+
+  // ✅ أظهر الصفحة الجديدة
+  const newEl = document.getElementById(newPage);
+  if (newEl) {
+    newEl.style.display = "block";
+    setTimeout(() => newEl.classList.add("active"), 50);
+  } else {
+    console.error("❌ الصفحة الجديدة غير موجودة:", newPage);
+  }
 
   // ✅ إظهار البحث فقط إذا كانت الصفحة الجديدة هي `dataSection`
-  document.getElementById("searchSection").style.display = (newPage === "dataSection") ? "block" : "none";
-      const backButton = document.getElementById("backBtn");
-backButton.style.display = (newPage === "dataSection") ? "block" : "none"; // ✅ يظهر فقط في صفحة إدخال البيانات
-if (newPage === "passwordPage") {
-    backButton.style.display = "none"; // ✅ إخفاءه تمامًا في الصفحة الأولى
-}
+  const searchEl = document.getElementById("searchSection");
+  if (searchEl) {
+    searchEl.style.display = (newPage === "dataSection") ? "block" : "none";
+  }
+
+  // ✅ زر الرجوع يظهر في كل الصفحات ما عدا صفحة تسجيل الدخول فقط
+  const backButton = document.getElementById("backBtn");
+  if (backButton) {
+    backButton.style.display = (newPage !== "loginSection") ? "inline-block" : "none";
+  }
 }
     
     function selectSheet(sheetName) {
@@ -380,6 +462,54 @@ if (newPage === "passwordPage") {
 
     changePage("weekSelectionPage", "dataSection"); // ✅ انتقال صحيح إلى صفحة إدخال البيانات
     console.log("✅ تم الانتقال إلى صفحة إدخال البيانات");
+      const dataSection = document.getElementById("dataSection");
+
+if (mode === "edit") {
+  dataSection.innerHTML = `
+  <h2>تعديل بيانات الطالب</h2>
+
+  <!-- 🔁 قسم تعديل الدرجة -->
+  <div class="form-group">
+    <label for="editName">الاسم</label>
+    <input type="text" id="editName" autocomplete="off" oninput="showSuggestions(this, document.getElementById('editSuggestions'))">
+    <div id="editSuggestions" class="suggestions"></div>
+  </div>
+
+  <div class="form-group">
+    <label for="newScore">الدرجة الجديدة</label>
+    <input type="number" id="newScore" min="0" max="10">
+  </div>
+
+  <button onclick="updateStudentScore()">✅ تعديل</button>
+
+  <hr>
+
+  <!-- 📊 قسم التقارير -->
+  <h2>تقرير الأسبوع</h2>
+
+  <div class="form-group">
+    <label for="reportWeekInput">اختر اسم الأسبوع (زي: B)</label>
+    <select id="reportWeekInput">
+  <option value="">اختر الأسبوع</option>
+  <option value="الاسبوع الاول">الاسبوع الاول</option>
+  <option value="الاسبوع التانى">الاسبوع التانى</option>
+  <option value="الاسبوع الثالث">الاسبوع الثالث</option>
+  <option value="الاسبوع الرابع">الاسبوع الرابع</option>
+  <option value="الاسبوع الخامس">الاسبوع الخامس</option>
+  <option value="الاسبوع السادس">الاسبوع السادس</option>
+  <option value="الاسبوع السابع">الاسبوع السابع</option>
+  <option value="الاسبوع الثامن">الاسبوع الثامن</option>
+  <option value="الاسبوع التاسع">الاسبوع التاسع</option>
+  <option value="الاسبوع العاشر">الاسبوع العاشر</option>
+</select>
+  </div>
+  <button onclick="showWeekCount()">📊 عرض العدد</button>
+  <div id="weekCountDisplay" class="form-group"></div>
+  <button onclick="generateWeekReport()">📋 عرض التقرير</button>
+  <div id="weekReportResult"></div>
+  `;
+}
+// ⬇️ أضف ده لإنه بيكمل إغلاق الدالة الأصلية
 }
     
 function loadNames() {
@@ -388,8 +518,8 @@ function loadNames() {
         return; 
     }
 
-    fetch(`https://attendace.johnmamdouh777.workers.dev/?action=getAllNames&sheet=${encodeURIComponent(selectedSheet)}`)
-    .then(res => res.text()) // ✅ استقبال الاستجابة كنص لفحص نوع البيانات
+    fetch(`https://attendace.johnmamdouh777.workers.dev/?action=getNames&sheet=${encodeURIComponent(selectedSheet)}`)
+   .then(res => res.text()) // ✅ استقبال الاستجابة كنص لفحص نوع البيانات
     .then(data => {
         console.log("📌 استجابة السيرفر:", data); // ✅ فحص البيانات المستلمة
         try {
@@ -410,13 +540,6 @@ function loadNames() {
 
         let tableBody = document.querySelector("#resultTable tbody");
         tableBody.innerHTML = "";
-
-        // ✅ تحقق من `students` قبل التنفيذ
-        if (!data.students || !Array.isArray(data.students)) {
-            console.error("❌ البيانات المستلمة لا تحتوي على `students`.");
-            return;
-        }
-
         data.students.forEach(student => {
             let scores = Array.isArray(student.scores) ? student.scores : [];
             while (scores.length < 9) { 
@@ -474,7 +597,6 @@ let filtered = allNames.filter(name => name && name.toLowerCase().includes(value
   inputElement.value = exactName ? exactName.trim() : name.trim();
   suggestionsContainer.innerHTML = "";
 };
-
         suggestionsContainer.appendChild(item);
       });
     }
@@ -636,8 +758,146 @@ table.style.display = "table"; // ✅ تأكد من ظهور الجدول فقط
     .catch(err => console.error('❌ خطأ أثناء البحث:', err));
 }
     function goBackToWeekSelection() {
-    console.log("🔙 الرجوع إلى صفحة اختيار الأسبوع");
-    changePage("dataSection", "weekSelectionPage"); // ✅ رجوع للصفحة السابقة
+  console.log("🔙 الرجوع إلى صفحة اختيار الأسبوع");
+  if (mode === "edit") {
+    changePage("dataSection", "chooseActionSection");
+  } else {
+    changePage("dataSection", "weekSelectionPage");
+  }
+}
+
+    function getWeekIndex(weekName) {
+  const weekMap = {
+    "الاسبوع الاول": 0,
+    "الاسبوع التانى": 1,
+    "الاسبوع الثالث": 2,
+    "الاسبوع الرابع": 3,
+    "الاسبوع الخامس": 4,
+    "الاسبوع السادس": 5,
+    "الاسبوع السابع": 6,
+    "الاسبوع الثامن": 7,
+    "الاسبوع التاسع": 8,
+    "الاسبوع العاشر": 9
+  };
+  return weekMap[weekName] ?? undefined;
+}
+
+    function updateStudentScore() {
+  const nameInput = document.getElementById("editName");
+  const scoreInput = document.getElementById("newScore");
+
+  const name = nameInput.value.trim();
+  const newScore = scoreInput.value.trim();
+
+  if (!name || newScore === "") {
+    alert("❌ يجب إدخال الاسم والدرجة الجديدة!");
+    return;
+  }
+
+  const scoreNumber = Number(newScore);
+  if (isNaN(scoreNumber) || scoreNumber < 0 || scoreNumber > 10) {
+    alert("❌ الدرجة يجب أن تكون رقمًا بين 0 و10!");
+    return;
+  }
+
+  if (!selectedSheet || !selectedWeek) {
+    alert("❌ يجب اختيار الشيت والأسبوع أولاً!");
+    return;
+  }
+
+  const payload = {
+    action: "updateScore",
+    sheet: selectedSheet,
+    week: selectedWeek,
+    name: name,
+    newScore: scoreNumber
+  };
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => res.text())
+    .then(data => {
+      console.log("📌 استجابة التعديل:", data);
+      try {
+        const response = JSON.parse(data);
+        if (response.success) {
+          alert("✅ تم تعديل الدرجة بنجاح!");
+
+          // ✅ مسح الخانات بعد التعديل
+          nameInput.value = "";
+          scoreInput.value = "";
+
+          // ✅ إعادة تحميل البيانات المحدثة
+          loadNames();
+        } else {
+          alert("❌ فشل التعديل: " + (response.message || "خطأ غير معروف"));
+        }
+      } catch (err) {
+        console.error("❌ خطأ في تحليل استجابة JSON:", err);
+        alert("❌ فشل في تفسير استجابة السيرفر!");
+      }
+    })
+    .catch(err => {
+      console.error("❌ خطأ أثناء إرسال طلب التعديل:", err);
+      alert("❌ حدث خطأ أثناء إرسال البيانات إلى السيرفر!");
+    });
+}
+    
+function generateWeekReport() {
+  const week = document.getElementById("reportWeekInput").value.trim();
+  if (!week) return alert("❌ الرجاء إدخال اسم الأسبوع.");
+
+  fetch(`${scriptURL}?action=getStudentScores&sheet=${selectedSheet}`)
+    .then(res => res.json())
+    .then(data => {
+      const index = getWeekIndex(week);
+      if (!data.students || index === undefined) return alert("❌ بيانات غير صالحة.");
+
+      let html = `<table><thead><tr><th>الاسم</th><th>الدرجة</th></tr></thead><tbody>`;
+
+      data.students.forEach(student => {
+        const score = student.scores?.[index] ?? "-";
+        html += `<tr><td>${student.name}</td><td>${score}</td></tr>`;
+      });
+
+      html += `</tbody></table>`;
+      document.getElementById("weekReportResult").innerHTML = html;
+    })
+    .catch(err => console.error("❌ خطأ في إنشاء التقرير:", err));
+  window.generateWeekReport = generateWeekReport;
+
+}
+    function showWeekCount() {
+  const week = document.getElementById("reportWeekInput").value.trim();
+  if (!week) return alert("❌ الرجاء اختيار الأسبوع.");
+
+  fetch(`${scriptURL}?action=getStudentScores&sheet=${selectedSheet}`)
+    .then(res => res.json())
+    .then(data => {
+      const index = getWeekIndex(week);
+      if (!data.students || index === undefined) {
+        document.getElementById("weekCountDisplay").textContent = "❌ لا يمكن حساب العدد لهذا الأسبوع.";
+        return;
+      }
+
+      const count = data.students.reduce((acc, student) => {
+        const score = student.scores?.[index];
+        return score !== undefined && score !== "" && score !== "-" ? acc + 1 : acc;
+      }, 0);
+
+      document.getElementById("weekCountDisplay").textContent =
+        `✅ عدد الطلاب الذين لديهم درجة في الأسبوع ${week}: ${count}`;
+    })
+    .catch(err => {
+      console.error("❌ خطأ في حساب العدد:", err);
+      document.getElementById("weekCountDisplay").textContent = "❌ حدث خطأ أثناء حساب العدد.";
+    });
+      window.showWeekCount = showWeekCount;
 }
 
   </script>
