@@ -327,7 +327,7 @@ table {
   <script>
     let mode = ""; // إما "insert" أو "edit"
     let selectedSheet = "";
-    const scriptURL = 'https://attendace.johnmamdouh777.workers.dev/';
+    const scriptURL = 'https://hero2025.johnmamdouh777.workers.dev/';
     let allNames = [];
     
     document.getElementById("loginBtn").addEventListener("click", function () {
@@ -336,7 +336,7 @@ table {
   const username = document.getElementById("loginUsername").value.trim();
   const password = document.getElementById("loginPassword").value.trim();
 
-  const users = {
+const users = {
   "hgf2013": "2182013",
   "john": "123",
   "selvana": "123",
@@ -349,7 +349,7 @@ table {
   "jomana": "123" ,
   "labota": "204625"
 };
-      
+
 if (users[username] && users[username] === password) {
   alert("تم تسجيل الدخول بنجاح");
 
@@ -511,7 +511,7 @@ if (mode === "insert") {
     changePage("choiceSection", "weekSelectionPage");
   }
 }
-
+    
     function selectWeek(weekCode) {
   selectedWeek = weekCode;
 
@@ -635,17 +635,13 @@ function showSuggestions(inputElement, suggestionsContainer) {
     
 document.getElementById("numberInput").addEventListener("input", checkSubmitState); // ✅
 
-    const searchInput = document.getElementById("searchInput");
-const searchSuggestions = document.getElementById("searchSuggestions");
-
-if (searchInput && searchSuggestions) {
-  searchInput.addEventListener("input", function () {
-    if (allNames.length === 0) loadNames();
-    showSuggestions(this, searchSuggestions);
-  });
-} else {
-  console.warn("❌ عناصر البحث مش موجودة دلوقتي.");
-}
+    document.getElementById("searchInput").addEventListener("input", function () {
+  if (allNames.length === 0) {
+    console.warn("🟡 الأسماء لم تُحمّل بعد، سيتم إعادة التحميل...");
+    loadNames();
+  }
+  showSuggestions(this, document.getElementById("searchSuggestions"));
+});
     
     function checkSubmitState() {
   const name = document.getElementById("nameInput").value.trim();
