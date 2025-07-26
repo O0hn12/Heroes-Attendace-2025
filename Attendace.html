@@ -640,7 +640,12 @@ document.getElementById("numberInput").addEventListener("input", checkSubmitStat
     console.warn("🟡 الأسماء لم تُحمّل بعد، سيتم إعادة التحميل...");
     loadNames();
   }
-  showSuggestions(this, document.getElementById("searchSuggestions"));
+  const suggestionsBox = document.getElementById("searchSuggestions");
+if (suggestionsBox) {
+  showSuggestions(this, suggestionsBox);
+} else {
+  console.warn("❌ عنصر الاقتراحات searchSuggestions مش موجود في الصفحة الحالية");
+}
 });
     
     function checkSubmitState() {
