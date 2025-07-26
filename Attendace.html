@@ -635,12 +635,17 @@ function showSuggestions(inputElement, suggestionsContainer) {
     
 document.getElementById("numberInput").addEventListener("input", checkSubmitState); // ✅
 
-    document.getElementById("searchInput").addEventListener("input", function () {
-  if (allNames.length === 0) {
-    console.warn("🟡 الأسماء لم تُحمّل بعد، سيتم إعادة التحميل...");
-    loadNames();
-  }
-  showSuggestions(this, document.getElementById("searchSuggestions"));
+    const searchInput = document.getElementById("searchInput");
+const searchSuggestions = document.getElementById("searchSuggestions");
+
+if (searchInput && searchSuggestions) {
+  searchInput.addEventListener("input", function () {
+    if (allNames.length === 0) loadNames();
+    showSuggestions(this, searchSuggestions);
+  });
+} else {
+  console.warn("❌ عناصر البحث مش موجودة دلوقتي.");
+}
 });
 
     function checkSubmitState() {
