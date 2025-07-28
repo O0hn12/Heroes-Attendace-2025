@@ -473,16 +473,17 @@ function goToEdit() {
           <label for="reportWeekInput">اختر الأسبوع</label>
           <select id="reportWeekInput">
             <option value="">اختر الأسبوع</option>
-            <option value="الاسبوع الاول">الاسبوع الاول</option>
-            <option value="الاسبوع التانى">الاسبوع التانى</option>
-            <option value="الاسبوع الثالث">الاسبوع الثالث</option>
-            <option value="الاسبوع الرابع">الاسبوع الرابع</option>
-            <option value="الاسبوع الخامس">الاسبوع الخامس</option>
-            <option value="الاسبوع السادس">الاسبوع السادس</option>
-            <option value="الاسبوع السابع">الاسبوع السابع</option>
-            <option value="الاسبوع الثامن">الاسبوع الثامن</option>
-            <option value="الاسبوع التاسع">الاسبوع التاسع</option>
-            <option value="الاسبوع العاشر">الاسبوع العاشر</option>
+            <option value="">اختر الأسبوع</option>
+            <option value="B">الاسبوع الاول</option>
+            <option value="C">الاسبوع التانى</option>
+            <option value="D">الاسبوع الثالث</option>
+            <option value="E">الاسبوع الرابع</option>
+            <option value="F">الاسبوع الخامس</option>
+            <option value="G">الاسبوع السادس</option>
+            <option value="H">الاسبوع السابع</option>
+            <option value="I">الاسبوع الثامن</option>
+            <option value="J">الاسبوع التاسع</option>
+            <option value="K">الاسبوع العاشر</option>
           </select>
         </div>
 
@@ -801,17 +802,17 @@ function searchName() {
 
     function getWeekIndex(weekName) {
   const weekMap = {
-    "الاسبوع الاول": 0,
-    "الاسبوع التانى": 1,
-    "الاسبوع الثالث": 2,
-    "الاسبوع الرابع": 3,
-    "الاسبوع الخامس": 4,
-    "الاسبوع السادس": 5,
-    "الاسبوع السابع": 6,
-    "الاسبوع الثامن": 7,
-    "الاسبوع التاسع": 8,
-    "الاسبوع العاشر": 9
-  };
+  "B": 0,
+  "C": 1,
+  "D": 2,
+  "E": 3,
+  "F": 4,
+  "G": 5,
+  "H": 6,
+  "I": 7,
+  "J": 8,
+  "K": 9
+};
   return weekMap[weekName] ?? undefined;
 }
 
